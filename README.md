@@ -1,11 +1,11 @@
 # associative_learning_Stentor
+Code for running associative learning in the protozoan _Stentor coeruleus_
 
-Code for running Associative learning in the protozoan Stentor coeruleus
+1. Start Pluto by running `using Pluto; Pluto.run()`.
+2. Open visualization.jl and run each cell.
 
-1. Install Julia.
-2. Start the Julia REPL.
-3. Activate the project with ] activate.
-4. Instantiate the project with ] instantiate.
-5. Start Pluto with using Pluto; Pluto.run().
-6. Open notebook.jl and run each cell.
-
+If you have not installed Julia, start with:
+  - Install Julia and start the Julia REPL.
+  - Activate the project with `] activate`.
+  - Instantiate the project with `] instantiate`.
+  - Follow steps (1) and (2) above.
