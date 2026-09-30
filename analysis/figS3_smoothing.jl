@@ -2,6 +2,7 @@ include("common.jl")
 
 using CategoricalArrays
 
+# Define kernel and peak thresholds
 kernels         = [3, 5, 8, 12]
 peak_thresholds = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
 colors          = ["black", "gray"]
@@ -24,6 +25,7 @@ for (idx, k) in enumerate(kernels)
     row = ceil(Int, idx / 2)
     col = ((idx - 1) % 2) + 1
 
+    # Work with filtered data instead of all data and add max_rate, response to first, trial at peak, etc. to each threshold
     k_data = deepcopy(filtered_data)
     get_rolling_rate!(k_data, k)
     column_name = Symbol("rolling_rate_$(k)")
@@ -45,6 +47,7 @@ for (idx, k) in enumerate(kernels)
          responsiveness = total_responsiveness)
     end
 
+    # Only interested in cells that didnt respond to first stim and still responsive
     non_monotonic = filter(r -> r.responded_to_first == false && r.responsiveness > 0,
                            cell_data_threshold)
 
@@ -52,6 +55,7 @@ for (idx, k) in enumerate(kernels)
     non_monotonic.learner = non_monotonic.max_rate .>= LEARNER_THRESHOLD
     append!(compare_rolling_window, non_monotonic)
 
+    # This dataset to compare thresholds and conditions later
     if k == 8
         for t in peak_thresholds
             temp = copy(non_monotonic)
@@ -79,6 +83,7 @@ for (idx, k) in enumerate(kernels)
               ylabel = col == 1 ? "Proportion of learners" : "",
               title  = "Rolling window = $k", titlesize = 22)
 
+    # Loop through dataset to draw lines at each threshold
     for (i, condition) in enumerate(interest_conditions)
         condition_data = filter(r -> r.condition == condition, results)
         sort!(condition_data, :threshold)
@@ -116,6 +121,7 @@ println(m_cond_thresh)
 # Figure 2: Backward vs centered rolling comparison
 # ============================================================================
 
+# Compare different rolling method in the main weak-strong condition
 interest_condition = "ws_ISI1_ITI45"
 rolling_data       = filter(r -> r.condition == interest_condition, data)
 
@@ -126,6 +132,7 @@ for (idx, k) in enumerate(kernels)
     row = ceil(Int, idx / 2)
     col = ((idx - 1) % 2) + 1
 
+    # Calculate backward and centered rolling rates
     backward_data = deepcopy(rolling_data)
     get_rolling_rate!(backward_data, k)
     backward_data.method = fill("Backward", nrow(backward_data))
@@ -134,6 +141,7 @@ for (idx, k) in enumerate(kernels)
     get_centered_rolling_rate!(centered_data, k)
     centered_data.method = fill("Centered", nrow(centered_data))
 
+    # Process both methods
     results_combined = DataFrame()
 
     for (method_name, method_data, col_name) in [
@@ -182,6 +190,7 @@ for (idx, k) in enumerate(kernels)
               ylabel = col == 1 ? "Proportion of learners" : "",
               title  = "k = $k")
 
+    # Plot both methods
     methods = ["Backward", "Centered"]
     for (i, method) in enumerate(methods)
         method_data = filter(r -> r.method == method, results_combined)
@@ -204,7 +213,7 @@ for (idx, k) in enumerate(kernels)
     ax.xticks = peak_thresholds
 end
 
-# k=5 vs k=8 combined panel
+### Add k=5 and k=8 together to show they are similar in quantifying learners, though k=8 is a bit stricter
 ax5 = Axis(fig_rolling_compare[1:2, 3],
            xlabel = "Peak threshold",
            ylabel = "Proportion of learners",

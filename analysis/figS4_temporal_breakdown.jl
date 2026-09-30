@@ -30,9 +30,11 @@ models_dur = [
     glm(@formula(duration_above_threshold ~ iti),              dur_data, Poisson(), LogLink()),
     glm(@formula(duration_above_threshold ~ informativeness),  dur_data, Poisson(), LogLink())]
 
+# Put them all in a dataset
 all_models   = [models_learner, models_acq, models_peak, models_dur]
 row_datasets = [cell_data, acq_data, learners_group, dur_data]
 
+# Use Wald test to draw line if coef. is significant
 is_sig(model) = abs(coef(model)[2] / stderror(model)[2]) > 1.96
 
 function pred_y(model, x_range, row)
@@ -55,18 +57,18 @@ for row in 1:4, col in 1:3
     summary = combine(groupby(dataset, var)) do group
         x_val = first(group[!, var])
 
-        if row == 1
+        if row == 1 # Plot prop of learners
             n  = nrow(group)
             p  = mean(group.learner)
             se = 1.96 * sqrt(p * (1 - p) / n)
             (x_value = x_val, y_value = p, se = se)
-        elseif row == 2
+        elseif row == 2 # Plot trials to acquisition
             vals = collect(skipmissing(group.trial_to_acquisition))
             n = length(vals)
             m  = n > 0 ? mean(vals) : missing
             se = n > 1 ? 1.96 * std(vals) / sqrt(n) : missing
             (x_value = x_val, y_value = m, se = se)
-        elseif row == 3
+        elseif row == 3 # Plot peak local rate
             vals = group.peak_local_rate
             n  = length(vals)
             m  = mean(vals)

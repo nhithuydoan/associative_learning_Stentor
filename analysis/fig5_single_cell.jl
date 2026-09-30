@@ -26,7 +26,9 @@ end
 # GLM models
 # ---------------------------------------------------------------------------
 
+# ITI: only significant predictor of learner probability
 model_iti_learner  = glm(@formula(learner ~ iti), cell_data, Bernoulli(), LogitLink())
+# ISI and informativeness predict peak rate
 model_isi_peak     = glm(@formula(peak_local_rate ~ isi), learners_group, Gamma(), LogLink())
 model_info_peak    = glm(@formula(peak_local_rate ~ informativeness), learners_group, Gamma(), LogLink())
 model_duration_acq = fit(MixedModel,

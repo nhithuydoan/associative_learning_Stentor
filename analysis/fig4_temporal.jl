@@ -22,6 +22,7 @@ sort!(ws_conditions,
 
 fig4 = Figure(size = (1200, 1100))
 
+#### Panel A-F (label varies)
 for (i, condition) in enumerate(ws_conditions)
     row = (i - 1) ÷ 3 + 1
     col = (i - 1) % 3 + 1

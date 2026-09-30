@@ -9,7 +9,7 @@ ax5A = Axis(fig6[1, 1:2], xlabel = "Stimulus number", ylabel = "Proportion of re
 
 s0_A, w0_A, aw_A, as_A, ac_A = ws_fit.s0, ws_fit.w0, ws_fit.αw, ws_fit.αs, ws_fit.αc
 
-trials_A = 0:30
+trials_A = 0:30  # For demonstration purposes
 ws_pop_A = filter(r -> r.stimulus in trials_A,
                   filter(r -> r.condition == "ws_ISI1_ITI45", population))
 response_curve  = [model_weak_response(n, s0_A, w0_A, aw_A, as_A, ac_A) for n in trials_A]

@@ -6,24 +6,37 @@ Behavioral data and analysis for associative sensitization in *Stentor coeruleus
 
 ## Data
 
-Two CSV files in `data/`, both recording single-cell contraction responses (one row per cell per stimulus). See [`data/data_dictionary.md`](data/data_dictionary.md) for column definitions, condition key, and per-file details.
+CSV files in `data/`, each recording single-cell contraction responses (one row per cell per stimulus). See [`data/data_dictionary.md`](data/data_dictionary.md) for column definitions, condition key, and per-file details.
+
+**Main experiment**
 
 | File | Experiment |
 |---|---|
 | `ws_single.csv` | Weak-strong pairings and timing conditions |
 | `control.csv` | Arousal and sensitization controls |
 
+**Followup: common-test paradigm**
+
+| File | Experiment |
+|---|---|
+| `dataset_followup_1.csv` | Set 1 — 60-stim hab, 5400 s hab-train rest, 300 s train-test rest |
+| `dataset_followup_2.csv` | Set 2 — 20-stim hab, 2400 s hab-train rest, 600 s train-test rest |
+
 ## Repository structure
 
 ```
-data/           Raw experimental data and data dictionary
-analysis/       Per-figure analysis scripts and shared utilities (Julia)
-figures/        Output PNGs produced by the analysis scripts
+data/                   Raw experimental data and data dictionary
+analysis/               Per-figure analysis scripts and shared utilities (Julia)
+  followup/             Common-test followup analysis
+figures/                Output PNGs produced by the analysis scripts
+  followup/             Common-test followup figures
 ```
 
 ## Analysis scripts
 
-Each script in `analysis/` includes `common.jl` (shared data loading, models, and helpers) and produces one figure in `figures/`.
+Each script in `analysis/` includes `common.jl` (shared data loading, models, and helpers) and produces figures in `figures/`.
+
+**Main experiment**
 
 | Script | Paper figure |
 |---|---|
@@ -34,6 +47,12 @@ Each script in `analysis/` includes `common.jl` (shared data loading, models, an
 | `figS3_smoothing.jl` | Fig S3 — Smoothing robustness |
 | `figS4_temporal_breakdown.jl` | Fig S4 — Temporal parameter breakdown |
 
+**Followup** (`analysis/followup/`)
+
+| Script | Paper figure |
+|---|---|
+| `fig3_common_test.jl` | Fig 3 — Common-test paradigm (Set 1 and Set 2) |
+
 ## Setup
 
 1. Install Julia.
@@ -41,3 +60,4 @@ Each script in `analysis/` includes `common.jl` (shared data loading, models, an
 3. Activate the project with `] activate .`
 4. Instantiate the project with `] instantiate`.
 5. Run a figure script: `cd("analysis"); include("fig2_main_effects.jl")`
+6. Run followup: `cd("analysis/followup"); include("fig3_common_test.jl")`

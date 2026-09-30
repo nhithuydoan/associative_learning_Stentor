@@ -2,7 +2,7 @@
 
 julia_version = "1.11.3"
 manifest_format = "2.0"
-project_hash = "6a832c528d7e13af445046d7444a04da317b2bae"
+project_hash = "68d51685e1f602f6067e25bf05f31e933f5c3f7c"
 
 [[deps.ADTypes]]
 deps = ["PrecompileTools"]
@@ -183,6 +183,18 @@ deps = ["Colors"]
 git-tree-sha1 = "e092fa223bf66a3c41f9c022bd074d916dc303e7"
 uuid = "27a7e980-b3e6-11e9-2bcd-0b925532e340"
 version = "0.4.2"
+
+[[deps.AnovaBase]]
+deps = ["Distributions", "Printf", "Reexport", "Statistics", "StatsBase", "StatsModels"]
+git-tree-sha1 = "ec37657261a02d42e72eae4af1ce17504ab70169"
+uuid = "946dddda-6a23-4b48-8e70-8e60d9b8d680"
+version = "0.9.0"
+
+[[deps.AnovaGLM]]
+deps = ["AnovaBase", "Distributions", "GLM", "LinearAlgebra", "Printf", "Reexport", "Statistics", "StatsBase", "StatsModels"]
+git-tree-sha1 = "805fdee7cd80229543e2d1ac52ad80beb52d800c"
+uuid = "0a47a8e3-ec57-451e-bddb-e0be9d22772b"
+version = "0.2.9"
 
 [[deps.ArgCheck]]
 git-tree-sha1 = "f9e9a66c9b7be1ad7372bbd9b062d9230c30c5ce"

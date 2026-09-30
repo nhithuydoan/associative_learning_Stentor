@@ -35,11 +35,13 @@ quadratic_models = Dict(cond => fit_quadratic_mixed(cond) for cond in quadratic_
 # Control t-tests
 # ---------------------------------------------------------------------------
 
+# wswww: compare stim 1 (before strong) vs stim 3 (after strong)
 stim1_wswww = filter(r -> r.condition == "wswww_ISI1_ITI45" && r.stimulus == 1, all_individual_runs)
 stim3_wswww = filter(r -> r.condition == "wswww_ISI1_ITI45" && r.stimulus == 3, all_individual_runs)
 sort!(stim1_wswww, :run); sort!(stim3_wswww, :run)
 ttest_arousal = OneSampleTTest(stim3_wswww.prop .- stim1_wswww.prop)
 
+# wsssw: compare stim 1 (baseline) vs stim 5 (first weak after strong)
 stim1_wsssw = filter(r -> r.condition == "wsssw_ISI1_ITI45" && r.stimulus == 1, all_individual_runs)
 stim5_wsssw = filter(r -> r.condition == "wsssw_ISI1_ITI45" && r.stimulus == 5, all_individual_runs)
 sort!(stim1_wsssw, :run); sort!(stim5_wsssw, :run)
@@ -63,11 +65,13 @@ panel_labels = ["A", "B", "C", "D", "E", "F", "G"]
 
 for (condition, grid_pos, label) in zip(fig2_conditions, panel_grids, panel_labels)
     cond_pop = filter(r -> r.condition == condition, all_control)
+    # Calculate 95% CI across cells for this condition
     transform!(cond_pop,
         [:prop, :num_cells] =>
         ByRow((p, n) -> 1.96 * sqrt(p * (1 - p) / n)) => :sem)
     sort!(cond_pop, :stimulus)
 
+    # Add condition name
     m = match(r"(\w+)_ISI(\d+)_ITI(\d+)", condition)
     pattern, isi, iti = m.captures
     title_str = pattern in ["ws", "ww", "hab_ws"] ?
@@ -83,6 +87,7 @@ for (condition, grid_pos, label) in zip(fig2_conditions, panel_grids, panel_labe
         titlesize = label == "B" ? 24 : 20,
     )
 
+    # Add individual experimental runs as gray lines
     cond_runs = filter(r -> r.condition == condition, all_individual_runs)
     for run_id in unique(cond_runs.run)
         run_data = sort(filter(r -> r.run == run_id, cond_runs), :stimulus)
@@ -91,6 +96,7 @@ for (condition, grid_pos, label) in zip(fig2_conditions, panel_grids, panel_labe
                    color = (:gray, 0.4), linewidth = 1)
     end
 
+    # Mean ± CI
     if "is_strong" in names(cond_pop)
         strong_pts = filter(r ->  r.is_strong, cond_pop)
         weak_pts   = filter(r -> !r.is_strong, cond_pop)
@@ -117,6 +123,7 @@ for (condition, grid_pos, label) in zip(fig2_conditions, panel_grids, panel_labe
     xlims!(ax, 1, 60)
     ylims!(ax, 0, 1)
 
+    # Legend placed on Panel B only
     if label == "B"
         lines!(ax, [NaN], [NaN], color = (:gray, 0.4), linewidth = 1,      label = "Individual runs")
         scatter!(ax, [NaN], [NaN], color = :darkgoldenrod1, markersize = 8,  label = "Strong stimulus")
