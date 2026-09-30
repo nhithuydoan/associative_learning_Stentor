@@ -47,7 +47,7 @@ md"##### Load data"
 # ╔═╡ 086bcf3d-054e-4f90-844d-1a40d74118a6
 begin
 	# Load weak-strong data 
-	data = CSV.read(joinpath(MASTER_FOLDER, "ws_single_cell_0819.csv"), DataFrame)
+	data = CSV.read(joinpath(MASTER_FOLDER, "data", "ws_single.csv"), DataFrame)
 
 	# Each cell has a unique id
 	transform!(data,
@@ -56,7 +56,7 @@ begin
 	# Informativeness = (ITI + ISI) / ISI 
 	transform!(data, [:isi, :iti] => ByRow((isi, iti) -> (iti + isi) / isi) => :informativeness)
 	
-	control_data = CSV.read(joinpath(MASTER_FOLDER, "control_0826.csv"), DataFrame)
+	control_data = CSV.read(joinpath(MASTER_FOLDER, "data", "control.csv"), DataFrame)
 	control_data.condition_pattern = [split(cond, "_")[1] for cond in control_data.condition]
 	
 	# Label each stimulus as strong or weak based on the pattern string

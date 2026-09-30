@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(data/*.csv)",
+      "Write(data/*.csv)",
+      "Bash(rm data/*.csv)",
+      "Bash(mv data/*.csv)"
+    ]
+  }
+}
