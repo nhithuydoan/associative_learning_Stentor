@@ -6,41 +6,24 @@ Contraction responses in *Stentor coeruleus*, scored from video. Each row record
 
 ## Main experiment
 
-Data from the primary associative-sensitization experiments: weak-strong tap pairings at various temporal parameters, plus arousal and sensitization controls.
-
 ### Files
 
-| File | Rows | Columns | Description |
-|---|---|---|---|
-| `ws_single.csv` | 216,740 | 7 | Weak-strong pairings and timing conditions |
-| `control.csv` | 61,380 | 9 | Arousal and sensitization controls |
+ws_single.csv
 
-### Column definitions
+control.csv
 
-The two files share a common core schema. `control.csv` adds two extra columns (`fold_name` and `trial`).
-
-#### Session and protocol
+#### Data structure
 
 | Column | Type | Description |
 |---|---|---|
-| `fold_name` | text | Folder ID / experiment timestamp (`control.csv` only) |
+| `fold_name` | text | Folder ID  |
 | `condition` | text | Experimental condition (see condition key below) |
 | `run` | integer | Replicate run within a condition |
-| `isi` | integer | Inter-stimulus interval between weak and strong tap (seconds) |
+| `isi` | integer | Inter-stimulus interval between weak and strong tap ( in seconds) |
 | `iti` | integer | Inter-trial interval between strong tap and next weak-strong pair (seconds) |
 | `trial` | integer | Trial number within a run (`control.csv` only) |
 | `stimulus` | integer | Stimulus number within a run (1–60) |
-
-#### Cell
-
-| Column | Type | Description |
-|---|---|---|
 | `cell_number` | integer | Individual cell index within a run |
-
-#### Response
-
-| Column | Type | Description |
-|---|---|---|
 | `contract` | binary | Whether the cell contracted (1.0) or not (0.0) |
 
 ### Experimental conditions
@@ -51,8 +34,8 @@ Default parameters: ISI = 1 s, ITI = 59 s unless specified in the condition name
 
 | Prefix | Name | Description |
 |---|---|---|
-| `ws_*` | Weak-Strong | Primary experimental condition — weak tap (CS) paired with strong tap (US) |
-| `ww_*` | Weak-Weak | Tests US strength and CS responses |
+| `ws_*` | Weak-Strong | Primary experimental condition: weak tap (CS) paired with strong tap (US) with a specific ISI and ITI |
+| `ww_*` | Weak-Weak | Weak tap (CS) paired with another weak tap (US)|
 | `hab_ws_*` | Habituation then Weak-Strong | Tests necessity of prehabituation for sensitization |
 | `w_*` | Weak-only | CS presented without US (60 s between taps) |
 | `s_*` | Strong-only | Strength of the US alone (60 s between taps) |
@@ -79,25 +62,21 @@ Default parameters: ISI = 1 s, ITI = 59 s unless specified in the condition name
 
 ## Followup: common-test paradigm
 
-Data from followup experiments designed to distinguish associative learning from sensitization using a common-test design. Each experiment has three phases: pre-habituation (weak taps only), training (weak-strong pairs for experimental group, weak + strong taps for control group), and a single weak-tap test. If the two groups respond differently at the common test, the difference must reflect the pairing during training rather than non-associative sensitization.
+Data from followup experiments designed to distinguish associative learning from sensitization using a common-test design. Each experiment has three phases: pre-habituation (weak taps only), training (weak-strong pairs for experimental group, weak + strong taps for control group), and a single weak-tap test. If the two groups respond differently at the common test, the difference reflects the pairing during training rather than non-associative sensitization.
 
 ### Files
 
-| File | Rows | Columns | Description |
-|---|---|---|---|
-| `dataset_followup_1.csv` | 39,928 | 11 | Set 1: 60-stim hab, 5400 s hab-train rest, 300 s train-test rest |
-| `dataset_followup_2.csv` | 13,546 | 11 | Set 2: 20-stim hab, 2400 s hab-train rest, 600 s train-test rest |
+dataset_followup_1.csv
+dataset_followup_2.csv
 
-### Column definitions
-
-The followup files share columns with the main experiment (`condition`, `run`, `isi`, `iti`, `stimulus`, `cell_number`, `contract`) and add:
+Similar structure to control.csv and ws_single.csv, with added columns:
 
 | Column | Type | Description |
 |---|---|---|
-| `folder` | text | Experiment timestamp / folder ID |
+| `folder` | text | Experiment timestamp |
 | `phase` | text | Experimental phase: `hab` (pre-habituation), `train` (training), or `test` (common test) |
-| `break12` | float | Delay between habituation and training (seconds) |
-| `break23` | float | Delay between training and test (seconds) |
+| `break12` | float | Delay between habituation and training (in seconds) |
+| `break23` | float | Delay between training and test (in seconds) |
 
 ### Conditions
 
@@ -105,16 +84,6 @@ The followup files share columns with the main experiment (`condition`, `run`, `
 |---|---|
 | `experimental` | 5 weak-strong pairs (CS-US pairing) |
 | `control` | 1 weak tap followed by 4 strong taps (sensitization control) |
-
-### Set parameters
-
-| Parameter | Set 1 | Set 2 |
-|---|---|---|
-| Pre-habituation stimuli | 60 | 20 |
-| Hab-to-training rest | 5400 s (1.5 hr) | 2400 s (40 min) |
-| Training-to-test rest | 300 s (5 min) | 600 s (10 min) |
-| ISI | 1 s | 1 s |
-| ITI | 59 s | 59 s |
 
 ---
 
