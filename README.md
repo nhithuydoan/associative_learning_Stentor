@@ -1,4 +1,4 @@
-# Associative Sensitization in Stentor
+# Associative Learning in Stentor
 
 Behavioral data and analysis for associative sensitization in *Stentor coeruleus*. 
 
