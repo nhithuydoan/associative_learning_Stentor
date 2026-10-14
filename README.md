@@ -1,6 +1,6 @@
 # Associative Learning in Stentor
 
-Behavioral data and analysis for associative sensitization in *Stentor coeruleus*. 
+Behavioral data and analysis for associative learning in *Stentor coeruleus*. 
 
 **Preprint**: [doi:10.64898/2026.02.25.708045](https://doi.org/10.64898/2026.02.25.708045)
 
